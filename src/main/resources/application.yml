@@ -1,0 +1,45 @@
+#
+# -------------------------------------------
+# SERVER CONFIGURATION
+# -------------------------------------------
+#
+server:
+  port: 8403
+#
+# -------------------------------------------
+# APPLICATION CONFIGURATION
+# -------------------------------------------
+#
+spring:
+  http:
+    encoding:
+      force: true
+
+syk:
+  apple:
+    store:
+      storeUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/stores.json
+      availabilityUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability.json
+      cron: 0/10 * * * * ?
+  alarm:
+    monitor:
+      item:
+        - 256GB 银色
+        - 128GB 银色
+        - 512GB 银色
+      address: 苏州,上海,无锡,杭州,南京
+      tokenUrl: https://oapi.dingtalk.com/gettoken
+      messageUrl: https://oapi.dingtalk.com/chat/send
+      appKey: ding********
+      appsecret: dZLVv**********
+      chatId: chatac***********
+      allChatId: cha**************
+farelog:
+  name: monitor
+  path: ./logs
+  history-days: 10
+logging:
+  level:
+    root: info
+    com: debug
+  size: 500
