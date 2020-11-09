@@ -18,16 +18,16 @@ spring:
 syk:
   apple:
     store:
-      storeUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/stores.json
-      availabilityUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability.json
+      storeUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/G/stores.json
+      availabilityUrl: https://reserve-prime.apple.com/CN/zh_CN/reserve/G/availability.json
       cron: 0/10 * * * * ?
   alarm:
     monitor:
       item:
-        - 256GB 银色
-        - 128GB 银色
-        - 512GB 银色
-      address: 苏州,上海,无锡,杭州,南京
+        - Pro Max 128GB 银色
+        - Pro Max 256GB 银色
+        - Pro Max 512GB 银色
+      address: 苏州,上海,无锡
       tokenUrl: https://oapi.dingtalk.com/gettoken
       messageUrl: https://oapi.dingtalk.com/chat/send
       appKey: ding********
