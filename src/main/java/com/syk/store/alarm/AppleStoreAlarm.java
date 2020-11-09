@@ -81,21 +81,24 @@ public class AppleStoreAlarm {
             // 遍历12种型号
             for (ItemEnum itemEnum : ItemEnum.values()) {
                 // 获取对应的信号库存信息
-                JSONObject storeStock = detailInfo.getJSONObject(itemEnum.getCode()).getJSONObject("availability");
-                if (storeStock.getBoolean("contract") || storeStock.getBoolean("unlocked")) {
-                    // 有库存
-                    String allItemMsg = String.format("产品：%s,在地区%s,店铺%s有库存！！！", itemEnum.getName(),
-                        storeEntry.getValue().getCity(), storeEntry.getValue().getStoreName());
-                    LOGGER.info(allItemMsg);
-                    this.sendMessage(allItemMsg, accessKey, monitorProperties.getAllChatId());
-                    // 对比是否命中目标
-                    if (locations.contains(storeEntry.getValue().getCity())) {
-                        for (String target : monitorProperties.getItem()) {
-                            if (itemEnum.getName().contains(target)) {
-                                String msg = String.format("城市：%s,店铺：%s,产品：%s 有库存", storeEntry.getValue().getCity(),
-                                    storeEntry.getValue().getStoreName(), itemEnum.getName());
-                                LOGGER.info("target find，send message{}", msg);
-                                this.sendMessage(msg, accessKey, monitorProperties.getChatId());
+                JSONObject itemStoke = detailInfo.getJSONObject(itemEnum.getCode());
+                if (itemStoke != null) {
+                    JSONObject storeStock = itemStoke.getJSONObject("availability");
+                    if (storeStock.getBoolean("contract") || storeStock.getBoolean("unlocked")) {
+                        // 有库存
+                        String allItemMsg = String.format("产品：%s,在地区%s,店铺%s有库存！！！", itemEnum.getName(),
+                            storeEntry.getValue().getCity(), storeEntry.getValue().getStoreName());
+                        LOGGER.info(allItemMsg);
+                        this.sendMessage(allItemMsg, accessKey, monitorProperties.getAllChatId());
+                        // 对比是否命中目标
+                        if (locations.contains(storeEntry.getValue().getCity())) {
+                            for (String target : monitorProperties.getItem()) {
+                                if (itemEnum.getName().contains(target)) {
+                                    String msg = String.format("城市：%s,店铺：%s,产品：%s 有库存", storeEntry.getValue().getCity(),
+                                        storeEntry.getValue().getStoreName(), itemEnum.getName());
+                                    LOGGER.info("target find，send message{}", msg);
+                                    this.sendMessage(msg, accessKey, monitorProperties.getChatId());
+                                }
                             }
                         }
                     }
