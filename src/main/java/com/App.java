@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 public class App {
+
     public static void main(String[] args) {
         new SpringApplicationBuilder(App.class).run(args);
     }

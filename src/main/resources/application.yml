@@ -14,7 +14,18 @@ spring:
   http:
     encoding:
       force: true
-
+  redis:
+    host: 10.136.28.102
+    port: 6379
+    password: 1qaz!QAZ
+    database: 1
+    timeout: 1000
+    jedis:
+      pool:
+        max-idle: 10
+        max-wait: -1
+        min-idle: 0
+        max-active: 200
 syk:
   apple:
     store:
@@ -34,6 +45,7 @@ syk:
       appsecret: dZLVv**********
       chatId: chatac***********
       allChatId: cha**************
+      allAlarm: false
 farelog:
   name: monitor
   path: ./logs

@@ -53,6 +53,11 @@ public class MonitorProperties {
      */
     private String messageUrl;
 
+    /**
+     * 是否展示全部信息
+     */
+    private boolean allAlarm;
+
     public List<String> getItem() {
         return item;
     }
@@ -115,5 +120,13 @@ public class MonitorProperties {
 
     public void setAllChatId(String allChatId) {
         this.allChatId = allChatId;
+    }
+
+    public boolean isAllAlarm() {
+        return allAlarm;
+    }
+
+    public void setAllAlarm(boolean allAlarm) {
+        this.allAlarm = allAlarm;
     }
 }

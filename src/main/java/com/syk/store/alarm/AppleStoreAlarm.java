@@ -31,7 +31,7 @@ import com.taobao.api.ApiException;
  * @author sunyukun
  * @since 2020/10/29 1:44 下午
  */
-@EnableScheduling
+//@EnableScheduling
 @Service
 public class AppleStoreAlarm {
 
@@ -54,14 +54,16 @@ public class AppleStoreAlarm {
         this.restTemplate = restTemplate;
     }
 
-    @Scheduled(cron = "${syk.apple.store.cron:0/10 * * * * ?}")
+    //@Scheduled(cron = "${syk.apple.store.cron:0/10 * * * * ?}")
     public void appleStoreMonitor() throws ApiException {
         LOGGER.info("start to monitor");
         String accessKey = this.getAccessKey();
         if (storeInfos.isEmpty()) {
             LOGGER.info("开始请求店铺信息");
             this.sendMessage("开始监听", accessKey, monitorProperties.getChatId());
-            this.sendMessage("开始监听", accessKey, monitorProperties.getAllChatId());
+            if(monitorProperties.isAllAlarm()){
+                this.sendMessage("开始监听", accessKey, monitorProperties.getAllChatId());
+            }
             JSONObject store = restTemplate.getForObject(appStoreProperties.getStoreUrl(), JSONObject.class);
             List<?> stores = store.getObject("stores", List.class);
             stores.parallelStream().forEach(storeJson -> {
@@ -85,11 +87,13 @@ public class AppleStoreAlarm {
                 if (itemStoke != null) {
                     JSONObject storeStock = itemStoke.getJSONObject("availability");
                     if (storeStock.getBoolean("contract") || storeStock.getBoolean("unlocked")) {
-                        // 有库存
-                        String allItemMsg = String.format("产品：%s,在地区%s,店铺%s有库存！！！", itemEnum.getName(),
-                            storeEntry.getValue().getCity(), storeEntry.getValue().getStoreName());
-                        LOGGER.info(allItemMsg);
-                        this.sendMessage(allItemMsg, accessKey, monitorProperties.getAllChatId());
+                        if(monitorProperties.isAllAlarm()) {
+                            // 有库存
+                            String allItemMsg = String.format("产品：%s,在地区%s,店铺%s有库存！！！", itemEnum.getName(),
+                                    storeEntry.getValue().getCity(), storeEntry.getValue().getStoreName());
+                            LOGGER.info(allItemMsg);
+                            this.sendMessage(allItemMsg, accessKey, monitorProperties.getAllChatId());
+                        }
                         // 对比是否命中目标
                         if (locations.contains(storeEntry.getValue().getCity())) {
                             for (String target : monitorProperties.getItem()) {
